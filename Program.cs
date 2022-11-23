@@ -3,6 +3,7 @@ using System;
 
 using RabbitMQ.Client;
 using System.Text;
+using System.Collections.Generic;
 
 namespace RProducer
 {
@@ -10,9 +11,11 @@ namespace RProducer
     {
         static void Main(string[] args)
         {
-            bool verify = false;
+            bool verify = true;
             string text;
-            int contador;
+            //sortear essas palavras
+            List<string> palavras;
+            palavras = new List<string>() { "itemA", "itemB" , "itemC","itemD" };  
 
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
@@ -25,8 +28,10 @@ namespace RProducer
                                      arguments: null);
                 while (verify)
                 {
-                    
-                    string message = "Hello World! ";
+                    int v = new Random().Next(0, 3);
+                    int randomN = v;
+                       
+                    string message = palavras[v];
                    
                     var body = Encoding.UTF8.GetBytes(message);
 
@@ -45,8 +50,8 @@ namespace RProducer
 
             }
 
-         //   Console.WriteLine(" Press [enter] to exit.");
-          //  Console.ReadLine();
+           Console.WriteLine(" Press [enter] to exit.");
+           Console.ReadLine();
           //@
         }
     }
